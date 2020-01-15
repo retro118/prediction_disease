@@ -1,13 +1,19 @@
-{% extends 'base.html' %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="try1.css">
+</head>
+<body>
+
 <div class="login-page">
     <div class="form">
       <form class="login-form">
         <input type="text" placeholder="username"/>
         <input type="password" placeholder="password"/>
-        <button>login</button>
-        <p class="message">Not registered? <a href="reg.html">Create an account</a></p>
+        <button onclick="location.href='afterlogin.html'" type="button">login</button>
+        <p class="message">Not registered? <a href="regi.html">Create an account</a></p>
       </form>
     </div>
   </div>
-{% endblock %}
+</body>
+</html>
