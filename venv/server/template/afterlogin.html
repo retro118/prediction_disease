@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="style.css">
+   {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
-
+{% csrf_token %}
 <div class="login-page">
     <div class="form">
       <form class="login-form">
@@ -18,8 +20,13 @@
           <button>Submit</button>
         </div>
 
+
       </form>
     </div>
   </div>
+        <div id="icn">
+          <i class="glyphicon glyphicon-user" style="font-size:48px;color:red; position: relative;
+           top:60px;left: 1275px;"  a onclick="location.href='{% url 'prof' %}'"></i>
+        </div>
 </body>
 </html>
