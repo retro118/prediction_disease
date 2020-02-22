@@ -1,13 +1,32 @@
-{% extends 'base.html' %}
-{% block content %}
+{% if msg %}
+<script>
+    alert('{{ msg }}');
+</script>
+{% endif %}
+
+<!DOCTYPE html>
+<html>
+<head>
+   {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+
 <div class="login-page">
     <div class="form">
-      <form class="login-form">
-        <input type="text" placeholder="username"/>
-        <input type="password" placeholder="password"/>
-        <button>login</button>
-        <p class="message">Not registered? <a href="reg.html">Create an account</a></p>
+          <form action="/postsign/" method="POST">
+              {% csrf_token %}
+            <input type="text" name="email" id="email" placeholder="Email"/>
+
+            <input type="password" name="password" id="password" placeholder="Password"/>
+
+            <button  type="submit">login</button>
+
+            <p class="message">Not registered? <a onclick="location.href='{% url 'Regi' %}'">Create an account</a></p>
+          </form>
       </form>
     </div>
   </div>
-{% endblock %}
+</body>
+</html>
+

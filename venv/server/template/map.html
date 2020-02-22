@@ -223,13 +223,12 @@ var mapProp= {
 ]
 };
 var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-console.log(JSON.stringify(diseases))
 
 for (var disease in diseases) {
-    for (var place in diseases[disease].place) {
+    for (var place in diseases[disease].places) {
     var loc = {
-        lat : diseases[disease].place[place].lat,
-        lng : diseases[disease].place[place].lng
+        lat : diseases[disease].places[place].lat,
+        lng : diseases[disease].places[place].lng
     };
 
     var diseaseCircle = new google.maps.Circle({
