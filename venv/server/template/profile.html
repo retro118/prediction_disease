@@ -1,0 +1,45 @@
+{% if messg %}
+<script>
+    alert('{{ messg }}');
+</script>
+{% endif %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+
+<div class="login-page">
+    <div class="form">
+        <form action="/postsignup/"  method="POST" >
+           {% csrf_token %}
+          <input type="text" name="Hospital name"  id="Hospital name " placeholder="Hospital name"/>
+
+          <input type="text" name="Email" id="Email" placeholder="Email"/>
+
+          <input type="text" name="Username" id="Username" placeholder="Username"/>
+
+          <input type="password" name="Password" id="Password" placeholder="Password"/>
+
+          <input type="password" name="Confirm password" id="Confirm password" placeholder="Confirm password"/>
+
+          <input type="text" name="Country" id="Country" placeholder="Country"/>
+
+          <input type="text" name="State" id="State" placeholder="State"/>
+
+          <input type="text" width="50px" name="Address" id="Address" placeholder="Address" style="height: 80px;"/>
+
+          <input type="tel" name="Pin code" id="Pin code" placeholder="Pin code"/>
+
+          <input type="tel" name="Contact no" id="Contact no" placeholder="Contact no"/>
+
+          <button onclick="location.href='{% url 'Regi' %}'" type="submit">Save</button>
+          <!--<p class="message"><a href="login.html">Log In</a></p>-->
+        </form>
+    </div>
+  </div>
+</body>
+</html>
