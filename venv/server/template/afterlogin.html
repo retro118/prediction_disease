@@ -1,32 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-   {% load staticfiles %}
+   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
 <body>
-{% csrf_token %}
-<div class="login-page">
-    <div class="form">
-      <form class="login-form">
-        <div id="dis">
-          <input type="text" placeholder="Disease"/>
-        </div>
-        <div id="vac">
-          <input type="text" placeholder="Vaccines"/>
-        </div>
-        <div id="ipbtn">
-          <button>Submit</button>
-        </div>
+      <div class="login-page">
+        <div class="form">
+          <form action="/postaftersign/"  method="POST" >
+            {% csrf_token %}
+
+            <div id="dis">
+             <input type="text" placeholder="Disease" name="Dis"/>
+            </div>
+
+            <div id="pre">
+              <input type="text" placeholder="Precaution" name="preventions"/>
+            </div>
+
+             <div id="vac">
+              <input type="text" placeholder="Vaccines" name="Vac"/>
+             </div>
+
+            <div id="ipbtn">
+              <button>Submit</button>
+             </div>
 
 
-      </form>
-    </div>
+         </form>
+     </div>
   </div>
         <div id="icn">
           <i class="glyphicon glyphicon-user" style="font-size:48px;color:red; position: relative;
            top:60px;left: 1275px;"  a onclick="location.href='{% url 'prof' %}'"></i>
         </div>
-</body>
-</html>
+    </form>
+ </body>
+ </html>

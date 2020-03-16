@@ -2,7 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import auth
 import pyrebase
+import json
+import requests
+import geocoder
 
+url = 'https://maps.googleapis.com/maps/api/geocode/json'
+# apikey='AIzaSyByksrWBWJYbWJenGuIhUZXVceTh5sNjqI'
 
 config = {
     'apiKey': "AIzaSyCOjXOsWfXTVrUlvbNorZdTyJO3yOCinlI",
@@ -39,9 +44,9 @@ def postsign(request):
                 message = "invalid credentials"
                 return render(request, "login.html", {"msg":message})
         print(user)
-        #print(user['idToken'])
-        #session_id = user['idToken']
-        #request.session['uid'] = str(session_id)
+        print(user['idToken'])
+        session_id = user['idToken']
+        request.session['uid'] = str(session_id)
         return render(request, "afterlogin.html")
 
 
@@ -57,6 +62,17 @@ def postsignup(request):
          hpincode = request.POST.get('Pin code')
          hphno = request.POST.get('Contact no')
 
+         # params = {'sensor': 'false', 'address': 'Mountain View, CA'}
+         # r = requests.get(url, params=params)
+         # results = r.json()['results']
+         # location = results[0]['geometry']['location']
+         # location['lat'], location['lng']
+
+         # g = geocoder.google('Mountain View, CA')
+         # g.latlng
+
+
+
          try:
                user = authe.create_user_with_email_and_password(heml, hpassw)
                uid = user['localId']
@@ -69,3 +85,32 @@ def postsignup(request):
             return render(request, "regi.html", {"messg": message})
 
          return render(request, "login.html")
+
+def postaftersign(request):
+    hdis = request.POST.get('Dis')
+    hvacc = request.POST.get('Vac')
+    hprev=request.POST.get('preventions')
+    idtoken = request.session['uid']
+    a = authe.get_account_info(idtoken)
+    a = a['users']
+    a = a[0]
+    a = a['localId']
+    data1 = {"disease": hdis,"preventions":hprev,"vaccines": hvacc}
+    db.child("users").child(a).child("info").set(data1)
+    return render(request, "afterlogin.html")
+
+def postprofile(request):
+    print("*******")
+    idtoken = request.session['uid']
+    a = authe.get_account_info(idtoken)
+    a = a['users']
+    a = a[0]
+    a = a['localId']
+    Hospital= db.child("users").child(a).child("details").child('h_name').get().val()
+    print(Hospital)
+    email =db.child("users").child(uid).child("details").child('h_email').get().val()
+    address=db.child("users").child(uid).child("details").child('h_add').get().val()
+    phno=db.child("users").child(uid).child("details").child('h_phno'). get().val()
+    dis=db.child("users").child(a).child("info").child('disease').get().val()
+    vacc=db.child("users").child(a).child("info"). child('vaccine').get().val()
+    return render(request, "profile.html",{'Hn':Hospital,'eml':email,'add':address,'phn':phno,'d':dis,'vac':vacc})
