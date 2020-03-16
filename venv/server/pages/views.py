@@ -33,7 +33,20 @@ def regi(request, *args, **kwargs):
     return render(request, "regi.html")
 
 def profile(request, *args, **kwargs):
-    return render(request, "profile.html")
+    idtoken = request.session['uid']
+    a = authe.get_account_info(idtoken)
+    a = a['users']
+    a = a[0]
+    a = a['localId']
+    Hospital = db.child("users").child(a).child("details").child('h_name').get().val()
+    email = db.child("users").child(a).child("details").child('h_email').get().val()
+    address = db.child("users").child(a).child("details").child('h_add').get().val()
+    phno = db.child("users").child(a).child("details").child('h_phno').get().val()
+    dis = db.child("users").child(a).child("info").child('disease').get().val()
+    vacc = db.child("users").child(a).child("info").child('vaccine').get().val()
+    return render(request, "profile.html",
+                  {'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno, 'd': dis, 'vac': vacc})
+
 
 def postsign(request):
         eml = request.POST.get('email')
@@ -95,22 +108,6 @@ def postaftersign(request):
     a = a['users']
     a = a[0]
     a = a['localId']
-    data1 = {"disease": hdis,"preventions":hprev,"vaccines": hvacc}
+    data1 = {"disease": hdis,"preventions":hprev,"vaccine": hvacc}
     db.child("users").child(a).child("info").set(data1)
     return render(request, "afterlogin.html")
-
-def postprofile(request):
-    print("*******")
-    idtoken = request.session['uid']
-    a = authe.get_account_info(idtoken)
-    a = a['users']
-    a = a[0]
-    a = a['localId']
-    Hospital= db.child("users").child(a).child("details").child('h_name').get().val()
-    print(Hospital)
-    email =db.child("users").child(uid).child("details").child('h_email').get().val()
-    address=db.child("users").child(uid).child("details").child('h_add').get().val()
-    phno=db.child("users").child(uid).child("details").child('h_phno'). get().val()
-    dis=db.child("users").child(a).child("info").child('disease').get().val()
-    vacc=db.child("users").child(a).child("info"). child('vaccine').get().val()
-    return render(request, "profile.html",{'Hn':Hospital,'eml':email,'add':address,'phn':phno,'d':dis,'vac':vacc})
