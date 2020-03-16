@@ -1,0 +1,41 @@
+{% if messg %}
+<script>
+    alert('{{ messg }}');
+</script>
+{% endif %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<div class="login-page">
+    <div class="form">
+        <form action="/postprofile/"  method="POST">
+
+        Hospital name: {{Hn}}
+        <br><br>
+
+        Email: {{eml}}
+        <br><br>
+
+        Address: {{add}}
+         <br><br>
+
+        Contact no: {{phn}}
+        <br><br>
+
+        Disease: {{d}}
+        <br><br>
+
+        Vaccines: {{vac}}
+        <br><br>
+
+        <button onclick="location.href='{% url 'map' %}'" type="button">Back</button>
+        </form>
+    </div>
+  </div>
+</body>
+</html>
