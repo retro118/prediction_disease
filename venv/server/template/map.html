@@ -1,9 +1,55 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+    <!--<head>-->
+        <!--<style>-->
+            <!--.button {-->
+                <!--background-color: #ff5588;-->
+                <!--border: none;-->
+                <!--color: white;-->
+                <!--padding: 15px 32px;-->
+                <!--text-align: center;-->
+                <!--text-decoration: none;-->
+                <!--display: inline-block;-->
+                <!--font-size: 16px;-->
+                <!--position: -ms-page;-->
+              <!--}-->
+              <!--#googlemap {-->
+        <!--height: 100%;-->
+      <!--}-->
+      <!--/* Optional: Makes the sample page fill the window. */-->
+      <!--html, body {-->
+        <!--height: 100%;-->
+        <!--margin: 0;-->
+        <!--padding: 0;-->
+      <!--}-->
+        <!--</style>-->
+    <!--</head>-->
+<!--<body>-->
+<!--<button class="button" style="float:right" onclick="window.location.href='login.html'">Login</button>-->
+<!--<div id="googleMap" style="width:100%;height:600px;"></div>-->
+
+<!--<script>-->
+<!--function myMap() {-->
+<!--var mapProp= {-->
+  <!--center:new google.maps.LatLng(51.508742,-0.120850),-->
+  <!--zoom:5,-->
+<!--};-->
+<!--var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);-->
+<!--}-->
+<!--</script>-->
+<!--&lt;!&ndash;<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30703867.0716799!2d64.40183608457191!3d20.049158955693073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1573723976663!5m2!1sen!2sin"-->
+    <!--width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>&ndash;&gt;-->
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByksrWBWJYbWJenGuIhUZXVceTh5sNjqI&callback=myMap"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html>
     <head>
         <style>
             .button {
-                background-color: #ff5588;
+                background-color: #22b9ca;
                 border: none;
                 color: white;
                 padding: 15px 32px;
@@ -29,17 +75,223 @@
 <div id="googleMap" style="width:100%;height:600px;"></div>
 
 <script>
-function myMap() {
+
+var diseases = {{data | safe}}
+
+function initMap() {
 var mapProp= {
-  center:new google.maps.LatLng(51.508742,-0.120850),
-  zoom:5,
+  center:new google.maps.LatLng(0,0),
+  zoom:2.5,
+  styles: [
+  {
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#f5f5f5"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#616161"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#f5f5f5"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.land_parcel",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#bdbdbd"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#eeeeee"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#e5e5e5"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9e9e9e"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#ffffff"
+      }
+    ]
+  },
+  {
+    "featureType": "road.arterial",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#dadada"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#616161"
+      }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9e9e9e"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.line",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#e5e5e5"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#eeeeee"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#c9c9c9"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9e9e9e"
+      }
+    ]
+  }
+]
 };
 var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+for (var disease in diseases) {
+    for (var place in diseases[disease].places) {
+    var loc = {
+        lat : diseases[disease].places[place].lat,
+        lng : diseases[disease].places[place].lng
+    };
+
+    var diseaseCircle = new google.maps.Circle({
+      strokeColor: '#512b58',
+      strokeOpacity: 0.35,
+      fillColor: '#512b58',
+      map: map,
+      center: loc,
+      radius: 100000
+    });
+    }
+  }
+
 }
 </script>
 <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30703867.0716799!2d64.40183608457191!3d20.049158955693073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1573723976663!5m2!1sen!2sin"
     width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>-->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByksrWBWJYbWJenGuIhUZXVceTh5sNjqI&callback=myMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByksrWBWJYbWJenGuIhUZXVceTh5sNjqI&callback=initMap"></script>
 </body>
 </html>
-
