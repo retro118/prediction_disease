@@ -8,9 +8,9 @@ import json
 import requests
 import geocoder
 
-
 url = 'https://maps.googleapis.com/maps/api/geocode/json'
 # apikey='AIzaSyByksrWBWJYbWJenGuIhUZXVceTh5sNjqI'
+
 
 config = {
 'apiKey': "AIzaSyCOjXOsWfXTVrUlvbNorZdTyJO3yOCinlI",
