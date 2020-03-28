@@ -26,4 +26,5 @@ urlpatterns = [
     url('regi.html',views.regi,name='Regi'),
         url('postsignup/',views.postsignup,name='postsignup'),
      path('profile.html',views.profile,name='prof'),
+    path('postaftersign/',views.postaftersign,name='postaftersign'),
 ]
