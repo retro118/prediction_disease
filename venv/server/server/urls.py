@@ -16,9 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from pages import views
+from django.conf.urls import url
 
 urlpatterns = [
-    path('',views.map, name='map'),
-    path('login.html',views.login),
     path('admin/', admin.site.urls),
+    path('',views.map, name='map'),
+    path('login.html',views.login,name='login'),
+    url('postsign/',views.postsign),
+    url('regi.html',views.regi,name='Regi'),
+        url('postsignup/',views.postsignup,name='postsignup'),
+     path('profile.html',views.profile,name='prof'),
 ]
