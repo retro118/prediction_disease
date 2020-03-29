@@ -1,33 +1,45 @@
+
+{% if messg %}
+<script>
+    alert('{{ messg }}');
+</script>
+{% endif %}
+
 <!DOCTYPE html>
 <html>
 <head>
-    {% load static %}
+  {% load staticfiles %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
 </head>
 <body>
+
 <div class="login-page">
     <div class="form">
+        <form action="/postsignup/"  method="POST" >
+           {% csrf_token %}
+          <input type="text" name="Hospital name"  id="Hospital name " placeholder="Hospital name"/>
 
+          <input type="text" name="Email" id="Email" placeholder="Email"/>
 
-        Hospital name: {{Hn}}
-        <br><br>
+          <input type="text" name="Username" id="Username" placeholder="Username"/>
 
-        Email: {{eml}}
-        <br><br>
+          <input type="password" name="Password" id="Password" placeholder="Password"/>
 
-        Address: {{add}}
-         <br><br>
+          <input type="password" name="Confirm password" id="Confirm password" placeholder="Confirm password"/>
 
-        Contact no: {{phn}}
-        <br><br>
+          <input type="text" name="Country" id="Country" placeholder="Country"/>
 
-        <!--Disease: {{d}}-->
-        <!--<br><br>-->
+          <input type="text" name="State" id="State" placeholder="State"/>
 
-        <!--Vaccines: {{vac}}-->
-        <!--<br><br>-->
+          <input type="text" width="50px" name="Address" id="Address" placeholder="Address" style="height: 80px;"/>
 
-        <button onclick="location.href='{% url 'map' %}'" type="button">Back</button>
+          <input type="tel" name="Pin code" id="Pin code" placeholder="Pin code"/>
+
+          <input type="tel" name="Contact no" id="Contact no" placeholder="Contact no"/>
+
+          <button onclick="location.href='{% url 'Regi' %}'" type="submit">Save</button>
+          <!--<p class="message"><a href="login.html">Log In</a></p>-->
+        </form>
     </div>
   </div>
 </body>

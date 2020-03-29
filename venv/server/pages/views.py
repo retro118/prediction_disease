@@ -1,6 +1,4 @@
 from django.shortcuts import render
-import pyrebase
-import json
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import auth
 import pyrebase
@@ -9,21 +7,19 @@ import requests
 import geocoder
 
 
-url = 'https://maps.googleapis.com/maps/api/geocode/json'
-# apikey='AIzaSyByksrWBWJYbWJenGuIhUZXVceTh5sNjqI'
-
 config = {
-'apiKey': "AIzaSyCOjXOsWfXTVrUlvbNorZdTyJO3yOCinlI",
-'authDomain': "prediction-b4653.firebaseapp.com",
-'databaseURL': "https://prediction-b4653.firebaseio.com",
-'projectId': "prediction-b4653",
-'storageBucket': "prediction-b4653.appspot.com",
-'messagingSenderId': "106176267749 "
+    'apiKey': "AIzaSyCOjXOsWfXTVrUlvbNorZdTyJO3yOCinlI",
+    'authDomain': "prediction-b4653.firebaseapp.com",
+    'databaseURL': "https://prediction-b4653.firebaseio.com",
+    'projectId': "prediction-b4653",
+    'storageBucket': "prediction-b4653.appspot.com",
+    'messagingSenderId': "106176267749",
 }
 
 firebase = pyrebase.initialize_app(config)
-db = firebase.database()
 authe=firebase.auth()
+db = firebase.database()
+
 # Create your views here.
 def map(request, *args, **kwargs):
     data = db.child("diseases").get()
