@@ -77,6 +77,7 @@
 <script>
 
 var diseases = {{data | safe}}
+var hospitals= {{datahosptials | safe}}
 
 function initMap() {
 var mapProp= {
@@ -271,22 +272,41 @@ var mapProp= {
 var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
 for (var disease in diseases) {
-    for (var place in diseases[disease].places) {
-    var loc = {
-        lat : diseases[disease].places[place].lat,
-        lng : diseases[disease].places[place].lng
-    };
 
     var diseaseCircle = new google.maps.Circle({
       strokeColor: '#512b58',
       strokeOpacity: 0.35,
       fillColor: '#512b58',
       map: map,
-      center: loc,
+      center: {lat:diseases[disease].places.lat,lng:diseases[disease].places.lng},
       radius: 100000
     });
-    }
+
+
   }
+
+
+for (var hospital in hospitals){
+
+	var contentString="Hello there!!"
+    var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+    var marker = new google.maps.Marker({
+    position: {lat:hospitals[hospital].location.lat,lng : hospitals[hospital].location.lng},
+    icon: {
+      path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+      scale: 10
+    },
+    map: map
+  });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+  });
+    
+}
+
+
 
 }
 </script>

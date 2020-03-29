@@ -22,14 +22,17 @@ config = {
 }
 
 firebase = pyrebase.initialize_app(config)
-database = firebase.database()
+db = firebase.database()
 authe=firebase.auth()
 # Create your views here.
 def map(request, *args, **kwargs):
     data = db.child("diseases").get()
+    datahosptials=db.child("h").get()
     diseases = json.dumps(data.val())
+    hospitals=json.dumps(datahosptials.val())
     print(diseases)
-    return render(request, "map.html", {"data": diseases})
+    print(hospitals)
+    return render(request, "map.html", {"data": diseases,"datahosptials":hospitals})
 
 def login(request, *args, **kwargs):
     return render(request, "login.html", {})
