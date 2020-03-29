@@ -227,22 +227,48 @@ var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
 for (var disease in diseases) {
     for (var place in diseases[disease].places) {
-    var loc = {
-        lat : diseases[disease].places[place].lat,
-        lng : diseases[disease].places[place].lng
-    };
+        addDiseaseCircle (diseases[disease].places[place], disease, diseases[disease], place)
+    }//for
+  }//for
 
-    var diseaseCircle = new google.maps.Circle({
+function addDiseaseCircle (location , disease, data, place) {
+      var diseaseCircle = new google.maps.Circle({
       strokeColor: '#512b58',
       strokeOpacity: 0.35,
       fillColor: '#512b58',
       map: map,
-      center: loc,
+      center: {
+      lat:location.lat,
+      lng:location.lng
+      },
       radius: 100000
     });
-    }
-  }
 
+    var infowindow = new google.maps.InfoWindow();
+
+    google.maps.event.addListener(diseaseCircle, 'click', function (evt) {
+              var content = getDiseaseContent(disease, data, place);
+              infowindow.setContent(content)
+              infowindow.setPosition(this.getCenter());
+              infowindow.open(map);
+        });
+
+    }
+
+    function getDiseaseContent (disease, data , place) {
+    var content = "<div> <h4>Disease Information</h4> <p>Name : "+disease+"</p> <p>Location : "+place+"</p> <p>Symptoms : <ol> ";
+    for( var symptom in data.symptoms) {
+    content += "<li>"+data.symptoms[symptom]+"</li>"
+    }
+    content += "</ol>"
+    content += "<p>Precautions : <ol>"
+    for( var p in data.precaution) {
+    content += "<li>"+data.precaution[p]+"</li>"
+    }
+    content += "</ol></div>"
+    console.log(content)
+    return content;
+    }
 }
 </script>
 <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30703867.0716799!2d64.40183608457191!3d20.049158955693073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1573723976663!5m2!1sen!2sin"
