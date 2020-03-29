@@ -27,6 +27,8 @@ def map(request, *args, **kwargs):
     print(diseases)
     return render(request, "map.html", {"data": diseases})
 
+
+
 def login(request, *args, **kwargs):
     return render(request, "login.html", {})
 
@@ -69,6 +71,8 @@ def profile(request, *args, **kwargs):
 def postsign(request):
         eml = request.POST.get('email')
         passw = request.POST.get('password')
+
+
         try:
                 user = authe.sign_in_with_email_and_password(eml,passw)
         except:
@@ -151,9 +155,9 @@ def postaftersign(request):
     lat = {"lat": '27', "lng": '28'}
 
 
-    db.child("disease1").child(hdis).set(lat)
-    db.child("disease1").child(hdis).child("precautions").set(p)
-    db.child("disease1").child(hdis).child("symptoms").set(s)
+    db.child("diseases").child(hdis).set(lat)
+    db.child("diseases").child(hdis).child("precautions").set(p)
+    db.child("diseases").child(hdis).child("symptoms").set(s)
 
 
     d={"Accredation":harc,"Speciality":hspc,"Facility":hfac}
