@@ -1,6 +1,4 @@
 from django.shortcuts import render
-import pyrebase
-import json
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import auth
 import pyrebase
@@ -8,28 +6,28 @@ import json
 import requests
 import geocoder
 
-url = 'https://maps.googleapis.com/maps/api/geocode/json'
-# apikey='AIzaSyByksrWBWJYbWJenGuIhUZXVceTh5sNjqI'
-
 
 config = {
-'apiKey': "AIzaSyCOjXOsWfXTVrUlvbNorZdTyJO3yOCinlI",
-'authDomain': "prediction-b4653.firebaseapp.com",
-'databaseURL': "https://prediction-b4653.firebaseio.com",
-'projectId': "prediction-b4653",
-'storageBucket': "prediction-b4653.appspot.com",
-'messagingSenderId': "106176267749 "
+    'apiKey': "AIzaSyCOjXOsWfXTVrUlvbNorZdTyJO3yOCinlI",
+    'authDomain': "prediction-b4653.firebaseapp.com",
+    'databaseURL': "https://prediction-b4653.firebaseio.com",
+    'projectId': "prediction-b4653",
+    'storageBucket': "prediction-b4653.appspot.com",
+    'messagingSenderId': "106176267749",
 }
 
 firebase = pyrebase.initialize_app(config)
-database = firebase.database()
 authe=firebase.auth()
+db = firebase.database()
+
 # Create your views here.
 def map(request, *args, **kwargs):
     data = db.child("diseases").get()
     diseases = json.dumps(data.val())
     print(diseases)
     return render(request, "map.html", {"data": diseases})
+
+
 
 def login(request, *args, **kwargs):
     return render(request, "login.html", {})
@@ -73,6 +71,8 @@ def profile(request, *args, **kwargs):
 def postsign(request):
         eml = request.POST.get('email')
         passw = request.POST.get('password')
+
+
         try:
                 user = authe.sign_in_with_email_and_password(eml,passw)
         except:
@@ -155,9 +155,9 @@ def postaftersign(request):
     lat = {"lat": '27', "lng": '28'}
 
 
-    db.child("disease1").child(hdis).set(lat)
-    db.child("disease1").child(hdis).child("precautions").set(p)
-    db.child("disease1").child(hdis).child("symptoms").set(s)
+    db.child("diseases").child(hdis).set(lat)
+    db.child("diseases").child(hdis).child("precautions").set(p)
+    db.child("diseases").child(hdis).child("symptoms").set(s)
 
 
     d={"Accredation":harc,"Speciality":hspc,"Facility":hfac}
