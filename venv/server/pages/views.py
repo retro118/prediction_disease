@@ -23,9 +23,12 @@ db = firebase.database()
 # Create your views here.
 def map(request, *args, **kwargs):
     data = db.child("diseases").get()
+    data_h = db.child("h").get()
     diseases = json.dumps(data.val())
+    h = json.dumps(data_h.val())
     print(diseases)
-    return render(request, "map.html", {"data": diseases})
+    print(">>>>",h)
+    return render(request, "map.html", {"data": diseases,"data_h":h})
 
 
 
@@ -45,14 +48,7 @@ def profile(request, *args, **kwargs):
     a = a[0]
     a = a['localId']
 
-    # def listToString(s):
-    #      str1 = " "
-    #      return (str1.join(s))
 
-    # const1=db.child("h").shallow().get().val()
-    # print (">>>>",const1)
-    # c1= listToString(const1)
-    # print ("******", c1)
 
     Hospital =db.child("users1").child(a).child("user").child('h_name').get().val()
     email =  db.child("users1").child(a).child("user").child('h_email').get().val()

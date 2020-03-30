@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,9 +29,10 @@
 <button class="button" style="float:right" onclick="window.location.href='login.html'">Login</button>
 <div id="googleMap" style="width:100%;height:600px;"></div>
 
-<script>
 
+<script>
 var diseases = {{data | safe}}
+var h = {{data_h | safe}}
 
 function initMap() {
 var mapProp= {
@@ -224,24 +226,115 @@ var mapProp= {
 };
 var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
-
 for (var disease in diseases) {
     for (var place in diseases[disease].places) {
-    var loc = {
-        lat : diseases[disease].places[place].lat,
-        lng : diseases[disease].places[place].lng
-    };
+        addDiseaseCircle (diseases[disease].places[place], disease, diseases[disease], place)
+    }//for
+  }//for
 
-    var diseaseCircle = new google.maps.Circle({
+function addDiseaseCircle (location , disease, data, place) {
+      var diseaseCircle = new google.maps.Circle({
       strokeColor: '#512b58',
       strokeOpacity: 0.35,
       fillColor: '#512b58',
       map: map,
-      center: loc,
+      center: {
+      lat:location.lat,
+      lng:location.lng
+      },
       radius: 100000
     });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    google.maps.event.addListener(diseaseCircle, 'click', function (evt) {
+              var content = getDiseaseContent(disease, data, place);
+              infowindow.setContent(content)
+              infowindow.setPosition(this.getCenter());
+              infowindow.open(map);
+        });
+
     }
-  }
+    function getDiseaseContent (disease, data , place) {
+    var content = "<div> <h4>Disease Information</h4> <p>Name : "+disease+"</p> <p>Location : "+place+"</p> <p>Symptoms : <ol> ";
+    for( var symptom in data.symptoms) {
+    content += "<li>"+data.symptoms[symptom]+"</li>"
+    }
+    content += "</ol>"
+    content += "<p>Precautions : <ol>"
+    for( var p in data.precaution) {
+    content += "<li>"+data.precaution[p]+"</li>"
+    }
+    content += "</ol></div>"
+    console.log(content)
+    return content;
+    }
+
+
+<!--//////////////////////////-->
+
+
+for (var hospital in h) {
+    for (var name in h[hospital].location) {
+        addHospitalCircle (h[hospital].location, hospital, h[hospital], name)
+    }//for
+  }//for
+
+
+function addHospitalCircle (location , hospital, data, name) {
+    var img = {
+         path:'M 16.78125 24.476562 L 7.695312 24.476562 L 7.695312 16.78125 L 0 16.78125 L 0 7.695312 L 7.695312 7.695312 L 7.695312 0 L 16.78125 0 L 16.78125 7.695312 L 24.476562 7.695312 L 24.476562 16.78125 L 16.78125 16.78125 Z M 9.128906 23.039062 L 15.34375 23.039062 L 15.34375 15.34375 L 23.039062 15.34375 L 23.039062 9.128906 L 15.34375 9.128906 L 15.34375 1.433594 L 9.128906 1.433594 L 9.128906 9.128906 L 1.433594 9.128906 L 1.433594 15.34375 L 9.128906 15.34375 Z M 9.128906 23.039062 ',
+         fillOpacity: 0.8,
+         scale: 1,
+         strokeColor: 'green',
+         strokeWeight: 3
+       };
+
+    var hospitalCircle = new google.maps.Marker({
+         position: {lat:location.lat,lng:location.lng},
+         icon: img,
+         map: map
+     });
+
+    var infowindow = new google.maps.InfoWindow();
+
+     google.maps.event.addListener(hospitalCircle,'click', function (evt) {
+              var content = getHospitalContent(hospital, data, name);
+              infowindow.setContent(content);
+              <!--infowindow.setPosition(this.getCenter());-->
+              infowindow.open(map,hospitalCircle);
+        });
+    }
+     function getHospitalContent (hospital, data , name) {
+     var content = "<div> <h4>Hospital Information</h4> <p>Name : "+hospital+"</p>  <p>Email : <ol> ";
+     for( var eml in data.Email) {
+     <!--content += "<li>"+data.Email[eml]+"</li>"-->
+     content += data.Email[eml]
+    }
+    content += "</ol>"
+    content += "<p>Phone No : <ol>"
+    for( var phn in data.Phone) {
+    content += data.Phone[phn]
+    }
+    content += "</ol>"
+    content += "<p>Address : <ol>"
+    for( var add in data.address) {
+    content += data.address[add]
+    }
+    content += "</ol>"
+    content += "<p>Location : <ol>"
+    for( var loc in data.location) {
+    content += data.location[loc]
+    }
+    content += "</ol>"
+    content += "<p>Vaccine : <ol>"
+    for( var V in data.vaccine.vacc) {
+    content += "<li>"+data.vaccine.vacc[V]+"</li>"
+    }
+    content += "</ol></div>"
+    console.log(content)
+    return content;
+    }
 
 }
 </script>
