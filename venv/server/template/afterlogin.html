@@ -3,55 +3,137 @@
 <head>
    {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>-->
+
+    <script>
+       function validateForm() {
+       var dis = document.forms["myForm"]["Dis"].value;
+       var s1 = document.forms["myForm"]["symp"].value;
+       var s2= document.forms["myForm"]["symp1"].value;
+       var s3 = document.forms["myForm"]["symp2"].value;
+       var p1 = document.forms["myForm"]["preventions"].value;
+       var p2 = document.forms["myForm"]["preventions1"].value;
+       var p3 = document.forms["myForm"]["preventions2"].value;
+       var v1 = document.forms["myForm"]["Vac"].value;
+       var v2 = document.forms["myForm"]["Vac1"].value;
+
+       if (dis == "") {
+         alert(" Disease must be filled out");
+         return false;
+        }
+       if (s1 == "") {
+         alert("Symptom must be filled out");
+         return false;
+        }
+        if (s2 == "") {
+         alert("Symptom must be filled out");
+         return false;
+        }
+        if (s3 == "") {
+         alert("Symptom must be filled out");
+         return false;
+        }
+       if (p1 == "") {
+         alert("Preventions must be filled out");
+         return false;
+        }
+         if (p2 == "") {
+         alert("Preventions must be filled out");
+         return false;
+        }
+         if (p3== "") {
+         alert("Preventions must be filled out");
+         return false;
+        }
+       if (v1 == "") {
+         alert("Vaccine must be filled out");
+         return false;
+       }
+       }
+     </script>
 </head>
 <body>
-      <div class="login-page">
-        <div class="form">
-          <form action="/postaftersign/"  method="POST" >
-            {% csrf_token %}
+  <div class="afterlogin-page">
+      <div class="form">
+           <form action="/postaftersign/"  name="myForm" method="POST" onsubmit = "return(validateForm());" >
+               {% csrf_token %}
 
-            <div id="dis">
-             <input type="text" placeholder="Disease" name="Dis"/>
-            </div>
+               <p class="login100-form-title">Information
+              </p>
 
-              <div id="syp">
-               <input type="text" placeholder="Symptoms" name="symp"/>
-             </div>
+              <div id="dis">
+                 <input type="text" placeholder="Disease" name="Dis"/>
+              </div>
 
-            <div id="pre">
-              <input type="text" placeholder="Precaution" name="preventions"/>
-            </div>
+                             <!--***************symptoms**********************-->
+               <p style="font-weight: bold; text-align:left;"> Symptoms </p>
+               <div id="syp">
+                 <input type="text" placeholder="Symptoms" name="symp"/>
+               </div>
 
-             <div id="vac">
-              <input type="text" placeholder="Vaccines" name="Vac"/>
-             </div>
+               <div id="syp1">
+                 <input type="text" placeholder="Symptoms" name="symp1"/>
+               </div>
 
-              <input type="text" id="read" name="read" value="About Hospital" readonly>
+               <div id="syp2">
+                  <input type="text" placeholder="Symptoms" name="symp2"/>
+               </div>
+                       <!--*****************symptoms********************-->
+
+
+                       <!--*******************Precautions***************-->
+               <p style="font-weight: bold; text-align:left;"> Precautions</p>
+               <div id="pre">
+                 <input type="text" placeholder="Precaution" name="preventions"/>
+               </div>
+
+               <div id="pre1">
+                  <input type="text" placeholder="Precaution" name="preventions1"/>
+               </div>
+
+               <div id="pre2">
+                    <input type="text" placeholder="Precaution" name="preventions2"/>
+               </div>
+                       <!--*******************Precautions***************-->
+
+
+                       <!--*******************Vaccine***************-->
+                 <p style="font-weight: bold; text-align:left;"> Vaccines</p>
+                <div id="vac">
+                   <input type="text" placeholder="Vaccine" name="Vac"/>
+                </div>
+
+                <div id="vac1">
+                  <input type="text" placeholder="Vaccine" name="Vac1"/>
+                </div>
+
+                        <!--*******************Vaccine***************-->
+               <p style="font-weight: bold; text-align:left;"> About Hospital</p>
 
               <div id="i0">
-             <input type="text" placeholder="Accreditation" name="acr"/>
-            </div>
+                <input type="text" placeholder="Accreditation" name="acr"/>
+              </div>
 
               <div id="i1">
-             <input type="text" placeholder="Speciality" name="special"/>
-            </div>
+                <input type="text" placeholder="Speciality" name="special"/>
+              </div>
 
               <div id="i2">
-             <input type="text" placeholder="Facility" name="fac"/>
-            </div>
+                <input type="text" placeholder="Facility" name="fac"/>
+              </div>
 
               <div id="ipbtn">
-              <button>Submit</button>
-             </div>
-
-         </form>
+                <button>Submit</button><br><br>
+              </div>
+          </form>
+          <div id="prof_btn">
+                <button onclick="location.href='{% url 'prof' %}'" type="submit">profile</button>
+              </div>
      </div>
   </div>
-        <div id="icn">
-          <i class="glyphicon glyphicon-user" style="font-size:48px;color:red; position: relative;
-           top:60px;left: 1275px;"  a onclick="location.href='{% url 'prof' %}'"></i>
-        </div>
-    </form>
  </body>
  </html>
+        <!--<div id="icn">-->
+          <!--<i class="glyphicon glyphicon-user" style="font-size:48px;color:red; position: relative;-->
+           <!--top:60px;left: 1275px;"  a onclick="location.href='{% url 'prof' %}'"></i>-->
+        <!--</div>-->

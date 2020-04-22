@@ -4,21 +4,27 @@
     <head>
         <style>
             .button {
-                background-color: #22b9ca;
+                font-family: "Roboto", sans-serif;
+                text-transform: uppercase;
+                background:  #4ea53f;
                 border: none;
                 color: white;
                 padding: 15px 32px;
                 text-align: center;
                 text-decoration: none;
+                border-radius: 15px;
                 display: inline-block;
                 font-size: 16px;
                 position: -ms-page;
+                outline:none;
+
               }
               #googlemap {
         height: 100%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
+       background: #d6dae1;
         height: 100%;
         margin: 0;
         padding: 0;
@@ -31,8 +37,11 @@
 
 
 <script>
+
 var diseases = {{data | safe}}
 var h = {{data_h | safe}}
+
+
 
 function initMap() {
 var mapProp= {
@@ -324,12 +333,12 @@ function addHospitalCircle (location , hospital, data, name) {
     content += "</ol>"
     content += "<p>Location : <ol>"
     for( var loc in data.location) {
-    content += data.location[loc]
+    content +=data.location[loc]+" ,"
     }
     content += "</ol>"
     content += "<p>Vaccine : <ol>"
-    for( var V in data.vaccine.vacc) {
-    content += "<li>"+data.vaccine.vacc[V]+"</li>"
+    for( var V in data.vaccine) {
+    content +="<li>"+data.vaccine[V]+"</li>"
     }
     content += "</ol></div>"
     console.log(content)

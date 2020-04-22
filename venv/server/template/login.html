@@ -9,20 +9,43 @@
 <head>
    {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+
+    <script type = "text/javascript">
+         function validateEmail() {
+         var emailID = document.myForm.email.value;
+         atpos = emailID.indexOf("@");
+         dotpos = emailID.lastIndexOf(".");
+
+         if (atpos < 1 || ( dotpos - atpos < 2 )) {
+            alert("Please enter correct email ID")
+            document.myForm.email.focus();
+            return false;
+         }
+         return( true );
+      }
+    </script>
 </head>
 <body>
 
 <div class="login-page">
     <div class="form">
-          <form action="/postsign/" method="POST">
+          <form action="/postsign/"  name="myForm" method="POST"   onsubmit = "return(validateEmail());">
               {% csrf_token %}
-            <input type="text" name="email" id="email" placeholder="Email"/>
+              <p class="login100-form-title">Login
+              </p>
 
-            <input type="password" name="password" id="password" placeholder="Password"/>
+              <div class="login_eml validate-input" data-validate="Please enter Email">
+                 <input type="text" name="email" id="email" placeholder="Email" />
+              </div>
+              <input type="password" name="password" id="password" placeholder="Password"/>
 
-            <button  type="submit">login</button>
+             <div class="form1">
+             <div class="loginbtn">
+              <button  type="submit">login</button></div></div>
 
-            <p class="message">Not registered? <a onclick="location.href='{% url 'Regi' %}'">Create an account</a></p>
+              <p class="message">Not registered? <a onclick="location.href='{% url 'Regi' %}'">Create an account</a></p>
+
+
           </form>
       </form>
     </div>

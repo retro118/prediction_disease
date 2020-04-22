@@ -16,17 +16,32 @@
 <div class="login-page">
     <div class="form">
 
-            Hospital: {{Hn}}
-            <br><br>
+            <p style="font-weight: bold; text-align:left;">Hospital Name: </p>
+                   <p style="text-align:left;">{{Hn}}</p>
+                 <!--<input type="text" id="read1" name="read1" value={{Hn}} readonly>-->
+            <br>
 
-            Email:{{eml}}
-            <br><br>
+            <p style="font-weight: bold; text-align:left;">Email </p>
+                    <p style="text-align:left;">{{eml}}</p>
+                 <!--<input type="email" id="read2" name="read2" value={{eml}} readonly>-->
+            <br>
 
-             Address:{{add}}
-             <br><br>
+             <p style="font-weight: bold; text-align:left;">Address  </p>
+                    <p style="text-align:left;">{{add}}</p>
+                 <!--<input type="text" id="read3" name="read3" value={{add}} readonly>-->
+             <br>
 
-             Contact no:{{phn}}
-             <br><br>
+             <p style="font-weight: bold; text-align:left;"> Contact no </p>
+                    <p style="text-align:left;">{{phn}}</p>
+                 <!--<input type="number" id="read4" name="read4" value={{phn}} readonly>-->
+             <br>
+
+
+              <p style="font-weight: bold; text-align:left;"> Vaccines Available </p>
+                     <p style="text-align:left;">{{vac}}</p>
+                     <p style="text-align:left;">{{vac1}}</p>
+                 <!--<input type="text" id="read6" name="read6" value={{vac}} readonly>-->
+             <br>
 
 
            <button onclick="location.href='{% url 'map' %}'" type="button">BACK</button>
