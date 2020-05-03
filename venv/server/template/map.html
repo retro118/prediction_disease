@@ -33,6 +33,7 @@
     </head>
 <body>
 <button class="button" style="float:right" onclick="window.location.href='login.html'">Login</button>
+<button class="button" style="margin-left: 1100px" onclick="window.location.href='regi.html'">Register</button>
 <div id="googleMap" style="width:100%;height:600px;"></div>
 
 
@@ -40,7 +41,6 @@
 
 var diseases = {{data | safe}}
 var h = {{data_h | safe}}
-
 
 
 function initMap() {
@@ -330,11 +330,11 @@ function addHospitalCircle (location , hospital, data, name) {
     for( var add in data.address) {
     content += data.address[add]
     }
-    content += "</ol>"
-    content += "<p>Location : <ol>"
-    for( var loc in data.location) {
-    content +=data.location[loc]+" ,"
-    }
+    <!--content += "</ol>"-->
+    <!--content += "<p>Location : <ol>"-->
+    <!--for( var loc in data.location) {-->
+    <!--content +="<li>"+data.location[loc]+" ,"+"</li>"-->
+    <!--}-->
     content += "</ol>"
     content += "<p>Vaccine : <ol>"
     for( var V in data.vaccine) {

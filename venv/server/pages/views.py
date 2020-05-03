@@ -35,32 +35,14 @@ def map(request, *args, **kwargs):
 
 
 def login(request, *args, **kwargs):
-    return render(request, "login.html", {})
+    return render(request, "login.html")
 
 def regi(request, *args, **kwargs):
     return render(request, "regi.html")
 
+def addprofile(request, *args, **kwargs):
+    return render(request, "addprofile.html")
 
-
-# DISPLAY
-def profile(request, *args, **kwargs):
-    idtoken = request.session['uid']
-    a = authe.get_account_info(idtoken)
-    a = a['users']
-    a = a[0]
-    a = a['localId']
-
-    def listToString(s):
-        str1 = " "
-        return (str1.join(s))
-
-    Hospital =db.child("users1").child(a).child("user").child('h_name').get().val()
-    email =  db.child("users1").child(a).child("user").child('h_email').get().val()
-    address = db.child("users1").child(a).child("user").child('h_address').get().val()
-    phno = db.child("users1").child(a).child("user").child('phone').get().val()
-    vacc=db.child("hospitals").child(Hospital).child('vaccine').get().val()
-    return render(request, "profile.html",
-                  {'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno,'vac':vacc[0],'vac1':vacc[1]})
 
 
 
@@ -71,6 +53,7 @@ def postsign(request):
 
         try:
                 user = authe.sign_in_with_email_and_password(eml,passw)
+
         except:
                 message = "The Email or Password you entered is incorrect. "
                 return render(request, "login.html", {"msg":message})
@@ -78,9 +61,110 @@ def postsign(request):
         print(user['idToken'])
         session_id = user['idToken']
         request.session['uid'] = str(session_id)
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users']
+        a = a[0]
+        a = a['localId']
+
+        Hospital = db.child("users1").child(a).child("user").child('h_name').get().val()
+        email = db.child("users1").child(a).child("user").child('h_email').get().val()
+        address = db.child("users1").child(a).child("user").child('h_address').get().val()
+        phno = db.child("users1").child(a).child("user").child('phone').get().val()
+        vacc = db.child("hospitals").child(Hospital).child('vaccine').get().val()
+        mylist=", ".join(vacc)
+        return render(request, "profile.html",
+                      {'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno, 'vac': mylist})
 
 
-        return render(request, "afterlogin.html")
+
+
+# DISPLAY PROFILE
+def profile(request, *args, **kwargs):
+    idtoken = request.session['uid']
+    a = authe.get_account_info(idtoken)
+    a = a['users']
+    a = a[0]
+    a = a['localId']
+
+    Hospital =db.child("users1").child(a).child("user").child('h_name').get().val()
+    print (Hospital)
+    email =  db.child("users1").child(a).child("user").child('h_email').get().val()
+    print (email)
+    address = db.child("users1").child(a).child("user").child('h_address').get().val()
+    print (address)
+    phno = db.child("users1").child(a).child("user").child('phone').get().val()
+    vacc=db.child("hospitals").child(Hospital).child('vaccine').get().val()
+    mylist = ", ".join(vacc)
+
+    return render(request, "addprofile.html",
+                   {'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno,'vac':mylist})
+
+
+# ADD VACCINES
+def profilepost(request, *args, **kwargs):
+    idtoken = request.session['uid']
+    a = authe.get_account_info(idtoken)
+    a = a['users']
+    a = a[0]
+    a = a['localId']
+    print ("************",a)
+
+
+    vname = request.POST.get('fname')
+    hname = db.child("users1").child(a).child("user").child('h_name').get().val()
+    result=db.child("hospitals").child(hname).child("vaccine").get().val()
+    print(len(result))
+    result.append(vname)
+    v=db.child("hospitals").child(hname).child("vaccine").set(result)
+
+
+    Hospital = db.child("users1").child(a).child("user").child('h_name').get().val()
+
+    email = db.child("users1").child(a).child("user").child('h_email').get().val()
+
+    address = db.child("users1").child(a).child("user").child('h_address').get().val()
+
+    phno = db.child("users1").child(a).child("user").child('phone').get().val()
+    vacc = db.child("hospitals").child(Hospital).child('vaccine').get().val()
+    mylist = ",".join(vacc)
+
+    return render(request, "addprofile.html",{'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno,'vac':mylist})
+
+# DELETE VACCINES
+def profilepostdel(request, *args, **kwargs):
+    idtoken = request.session['uid']
+    a = authe.get_account_info(idtoken)
+    a = a['users']
+    a = a[0]
+    a = a['localId']
+
+    hname = db.child("users1").child(a).child("user").child('h_name').get().val()
+    result = db.child("hospitals").child(hname).child("vaccine").get().val()
+    print("==========",result)
+    del result[-1]
+    v=db.child("hospitals").child(hname).child("vaccine").set(result)
+    Hospital = db.child("users1").child(a).child("user").child('h_name').get().val()
+
+    email = db.child("users1").child(a).child("user").child('h_email').get().val()
+
+    address = db.child("users1").child(a).child("user").child('h_address').get().val()
+
+    phno = db.child("users1").child(a).child("user").child('phone').get().val()
+    vacc = db.child("hospitals").child(Hospital).child('vaccine').get().val()
+    mylist = ", ".join(vacc)
+
+    return render(request, "addprofile.html",{'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno,'vac':mylist})
+
+
+
+#LOGOUT
+def logout(request):
+      try:
+          del request.session['uid']
+      except:
+           pass
+      return render(request,'login.html')
 
 
 # REGISTRATION
@@ -93,8 +177,8 @@ def postsignup(request):
          hcountry = request.POST.get('Country')
          hstate = request.POST.get('State')
          hadd = request.POST.get('Address')
-         hpincode = request.POST.get('Pin code')
-         hphno = request.POST.get('Contact no')
+         hpincode = request.POST.get('Pin')
+         hphno = request.POST.get('ContactNo')
 
 
          # params = {'sensor': 'false', 'address': 'Mountain View, CA'}
@@ -131,53 +215,47 @@ def postsignup(request):
 
 
 # AFTER LOGIN ADD INFO ABOUT DISEASE AND VACCINE
-def postaftersign(request):
+# def postaftersign(request):
+#     harc=request.POST.get('acr')
+#     hspc=request.POST.get('special')
+#     hfac=request.POST.get('fac')
+#     hdis = request.POST.get('Dis')
+#     hvacc = request.POST.get('Vac')
+#     hvacc1 = request.POST.get('Vac1')
+#     hprev=request.POST.get('preventions')
+#     hprev1 = request.POST.get('preventions1')
+#     hprev2 = request.POST.get('preventions2')
+#     hsymp=request.POST.get('symp')
+#     hsymp1 = request.POST.get('symp1')
+#     hsymp2 = request.POST.get('symp2')
+#
+#
+#     idtoken = request.session['uid']
+#     a = authe.get_account_info(idtoken)
+#     a = a['users']
+#     a = a[0]
+#     a = a['localId']
+#
+#
+#     p=[hprev,hprev1,hprev2]
+#     s=[hsymp,hsymp1,hsymp2]
+#     lat = {"lat": 22.973423, "lng": 78.656891}
+#     v=[hvacc,hvacc1]
+#
+#
+#     #display vaccine in hospital
+#     hname = db.child("users1").child(a).child("user").child('h_name').get().val()
+#     hcon=db.child("hospitals").child(hname).child('Country').get().val()
+#     db.child("hospitals").child(hname).child("vaccine").set(v)
+#
+#     #disease database
+#     db.child("diseases").child(hdis).child("places").child(hcon).set(lat)
+#     db.child("diseases").child(hdis).child("precaution").set(p)
+#     db.child("diseases").child(hdis).child("symptoms").set(s)
+#
+#
+#     d={"Accredation":harc,"Speciality":hspc,"Facility":hfac}
+#     db.child("users1").child(a).child("user").child("a_info").set(d)
 
-    harc=request.POST.get('acr')
-    hspc=request.POST.get('special')
-    hfac=request.POST.get('fac')
-    hdis = request.POST.get('Dis')
-    hvacc = request.POST.get('Vac')
-    hvacc1 = request.POST.get('Vac1')
-    hprev=request.POST.get('preventions')
-    hprev1 = request.POST.get('preventions1')
-    hprev2 = request.POST.get('preventions2')
-    hsymp=request.POST.get('symp')
-    hsymp1 = request.POST.get('symp1')
-    hsymp2 = request.POST.get('symp2')
-
-
-    idtoken = request.session['uid']
-    a = authe.get_account_info(idtoken)
-    a = a['users']
-    a = a[0]
-    a = a['localId']
-
-
-    p=[hprev,hprev1,hprev2]
-    s=[hsymp,hsymp1,hsymp2]
-    lat = {"lat": 22.973423, "lng": 78.656891}
-    v=[hvacc,hvacc1]
-
-
-    #display vaccine in hospital
-    hname = db.child("users1").child(a).child("user").child('h_name').get().val()
-    hcon=db.child("hospitals").child(hname).child('Country').get().val()
-    db.child("hospitals").child(hname).child("vaccine").set(v)
-
-    #disease database
-    db.child("diseases").child(hdis).child("places").child(hcon).set(lat)
-    db.child("diseases").child(hdis).child("precaution").set(p)
-    db.child("diseases").child(hdis).child("symptoms").set(s)
-
-
-    d={"Accredation":harc,"Speciality":hspc,"Facility":hfac}
-    db.child("users1").child(a).child("user").child("a_info").set(d)
-
-
-    return render(request, "afterlogin.html")
-
-
-
-
+#     return render(request, "afterlogin.html")
 

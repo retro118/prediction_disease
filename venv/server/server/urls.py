@@ -25,9 +25,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.map, name='map'),
     path('login.html',views.login,name='login'),
+    url('logout/',views.logout,name="log"),
     url('postsign/',views.postsign),
     url('regi.html',views.regi,name='Regi'),
-        url('postsignup/',views.postsignup,name='postsignup'),
-     path('profile.html',views.profile,name='prof'),
-    path('postaftersign/',views.postaftersign,name='postaftersign'),
+    url('postsignup/',views.postsignup,name='postsignup'),
+    url('profile.html',views.profile,name='prof'),
+    url('profilepost/',views.profilepost,name='profilepost'),
+    url('addprofile.html',views.addprofile,name='addprof'),
+    url('profilepostdel/', views.profilepostdel, name='profilepostdel'),
+
 ]

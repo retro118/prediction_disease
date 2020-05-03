@@ -11,8 +11,8 @@
   }
 
   .afterlogin-form {
-     width: 360px;
-     padding: 8% 0 0;
+     width: 50%;
+     padding: 9% 0 0;
      margin: auto;
   }
 
@@ -63,8 +63,8 @@
     color: #FFFFFF;
     font-size: 14px;
     border-radius: 27px;
-   outline:none;
-   border: none;
+    outline:none;
+    border: none;
   }
   .form button:hover {
   background-color:#224219 ;               /* or #1b3815*/

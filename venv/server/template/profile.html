@@ -1,53 +1,50 @@
-
-{% if messg %}
-<script>
-    alert('{{ messg }}');
-</script>
-{% endif %}
-
 <!DOCTYPE html>
 <html>
 <head>
   {% load static%}
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-<div class="login-page">
+<!--<div class="login-page">-->
     <div class="form">
+           <p class="login100-form-title">Profile</p>
 
-            <p style="font-weight: bold; text-align:left;">Hospital Name: </p>
-                   <p style="text-align:left;">{{Hn}}</p>
+            <p style="font-weight: bold; margin: 0; display: inline;float:left">Hospital Name:  </p>
+             <p style="margin:;display:inline:float:right">{{Hn}}</p>
                  <!--<input type="text" id="read1" name="read1" value={{Hn}} readonly>-->
             <br>
 
-            <p style="font-weight: bold; text-align:left;">Email </p>
-                    <p style="text-align:left;">{{eml}}</p>
+            <p style="font-weight: bold; margin: 0; display: inline;float:left" >Email: </p>
+                    <p style="margin:0;display:inline:float:right;width:25em">{{eml}}</p>
                  <!--<input type="email" id="read2" name="read2" value={{eml}} readonly>-->
-            <br>
+            <br><br>
 
-             <p style="font-weight: bold; text-align:left;">Address  </p>
-                    <p style="text-align:left;">{{add}}</p>
+             <p style="font-weight: bold; margin: 0; display: inline;float:left">Address : </p>
+                    <p style="margin:0;display:inline:float:right">{{add}}</p>
                  <!--<input type="text" id="read3" name="read3" value={{add}} readonly>-->
-             <br>
+             <br><br>
 
-             <p style="font-weight: bold; text-align:left;"> Contact no </p>
-                    <p style="text-align:left;">{{phn}}</p>
+             <p style="font-weight: bold; margin: 0; display: inline;float:left"> Contact no: </p>
+                    <p style="margin:0;display:inline:float:right">{{phn}}</p>
                  <!--<input type="number" id="read4" name="read4" value={{phn}} readonly>-->
-             <br>
+             <br><br>
 
 
-              <p style="font-weight: bold; text-align:left;"> Vaccines Available </p>
-                     <p style="text-align:left;">{{vac}}</p>
-                     <p style="text-align:left;">{{vac1}}</p>
-                 <!--<input type="text" id="read6" name="read6" value={{vac}} readonly>-->
-             <br>
+              <p style="font-weight: bold; margin: 0; display: inline-block;float:left"> Vaccines Available: </p>
+                     <!--<p style="margin:0;display:inline:float:right">{{vac}},{{vac1}}</p>-->
 
+                   <button class="button1"style=" width: 30%;float: right;padding: 10px;width: 60px;height: 40px;display: inline-block;" onclick="location.href='{% url 'addprof' %}'" type="button">add</button>
+                   <br><br><br>
 
-           <button onclick="location.href='{% url 'map' %}'" type="button">BACK</button>
+                 <input type="text" id="read6" name="read6" value="{{vac}}" readonly>
+
+           <button onclick="location.href='{% url 'log' %}'" type="button">Logout</button>
           <!--<p class="message"><a href="login.html">Log In</a></p>-->
-        </form>
+
     </div>
   </div>
 </body>
 </html>
+
