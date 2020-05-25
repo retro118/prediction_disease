@@ -5,9 +5,14 @@ import pyrebase
 import json
 import requests
 import geocoder
+# from geopy.geocoders import Nominatim
+# from googlemaps import GoogleMaps
+# from gmaps import Geocoding
 
-# url = 'https://maps.googleapis.com/maps/api/geocode/json'
+url = 'https://maps.googleapis.com/maps/api/geocode/json'
 # api_key = 'AIzaSyByksrWBWJYbWJenGuIhUZXVceTh5sNjqI'
+
+
 
 config = {
     'apiKey': "AIzaSyCOjXOsWfXTVrUlvbNorZdTyJO3yOCinlI",
@@ -24,12 +29,31 @@ authe=firebase.auth()
 db = firebase.database()
 # Create your views here.
 def map(request, *args, **kwargs):
+    api_key = 'AIzaSyDS-ETfAHmdfFXLeVXLMNhXqtsiYBWl2qw'
     data = db.child("diseases").get()
     data_h = db.child("hospitals").get()
     diseases = json.dumps(data.val())
     h = json.dumps(data_h.val())
     print(diseases)
     print(">>>>",h)
+    print ()
+
+    # geolocator = Nominatim()
+    # location = geolocator.geocode("Tapkir nagar,Moshi ")
+    # # print(("lat:",location.latitude,"lng:",location.longitude))
+    # print(location)
+
+
+
+
+    # params = {'sensor': 'false', 'address': 'Mountain View, CA'}
+    # r = requests.get(url, params=params)
+    # results = r.json()['results']
+    # location = results[0]['geometry']['location']
+    # location['lat'], location['lng']
+    g = geocoder.google('Mountain View, CA')
+    print (g.json)
+    print ("--->>", g.latlng)
 
     return render(request, "map.html", {"data": diseases,"data_h":h})
 
@@ -72,7 +96,8 @@ def postsign(request):
         address = db.child("users1").child(a).child("user").child('h_address').get().val()
         phno = db.child("users1").child(a).child("user").child('phone').get().val()
         vacc = db.child("hospitals").child(Hospital).child('vaccine').get().val()
-        mylist=", ".join(vacc)
+        a = ' '.join(vacc).split()
+        mylist = ",".join(a)
         return render(request, "profile.html",
                       {'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno, 'vac': mylist})
 
@@ -88,14 +113,12 @@ def profile(request, *args, **kwargs):
     a = a['localId']
 
     Hospital =db.child("users1").child(a).child("user").child('h_name').get().val()
-    print (Hospital)
     email =  db.child("users1").child(a).child("user").child('h_email').get().val()
-    print (email)
     address = db.child("users1").child(a).child("user").child('h_address').get().val()
-    print (address)
     phno = db.child("users1").child(a).child("user").child('phone').get().val()
     vacc=db.child("hospitals").child(Hospital).child('vaccine').get().val()
-    mylist = ", ".join(vacc)
+    a = ' '.join(vacc).split()
+    mylist = ",".join(a)
 
     return render(request, "addprofile.html",
                    {'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno,'vac':mylist})
@@ -111,10 +134,10 @@ def profilepost(request, *args, **kwargs):
     print ("************",a)
 
 
+
     vname = request.POST.get('fname')
     hname = db.child("users1").child(a).child("user").child('h_name').get().val()
     result=db.child("hospitals").child(hname).child("vaccine").get().val()
-    print(len(result))
     result.append(vname)
     v=db.child("hospitals").child(hname).child("vaccine").set(result)
 
@@ -127,7 +150,8 @@ def profilepost(request, *args, **kwargs):
 
     phno = db.child("users1").child(a).child("user").child('phone').get().val()
     vacc = db.child("hospitals").child(Hospital).child('vaccine').get().val()
-    mylist = ",".join(vacc)
+    a = ' '.join(vacc).split()
+    mylist = ",".join(a)
 
     return render(request, "addprofile.html",{'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno,'vac':mylist})
 
@@ -152,7 +176,8 @@ def profilepostdel(request, *args, **kwargs):
 
     phno = db.child("users1").child(a).child("user").child('phone').get().val()
     vacc = db.child("hospitals").child(Hospital).child('vaccine').get().val()
-    mylist = ", ".join(vacc)
+    a = ' '.join(vacc).split()
+    mylist = ",".join(a)
 
     return render(request, "addprofile.html",{'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno,'vac':mylist})
 
@@ -202,6 +227,8 @@ def postsignup(request):
                # hospital database
                db.child("hospitals").child(hname).set(address)
                db.child("hospitals").child(hname).child("location").set(lat)
+               li=[ ' ']
+               db.child("hospitals").child(hname).child("vaccine").set(li)
 
                  # user database
                db.child("users1").child(uid).child("user").set(data)
