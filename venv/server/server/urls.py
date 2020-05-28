@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.map, name='map'),
     path('login.html',views.login,name='login'),
-    url('logout/',views.logout,name="log"),
+    # url('logout/',views.logout,name="log"),
     url('postsign/',views.postsign),
     url('regi.html',views.regi,name='Regi'),
     url('postsignup/',views.postsignup,name='postsignup'),

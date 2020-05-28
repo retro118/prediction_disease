@@ -5,12 +5,14 @@ import pyrebase
 import json
 import requests
 import geocoder
+from django.shortcuts import redirect
 # from geopy.geocoders import Nominatim
 # from googlemaps import GoogleMaps
 # from gmaps import Geocoding
 
 url = 'https://maps.googleapis.com/maps/api/geocode/json'
 # api_key = 'AIzaSyByksrWBWJYbWJenGuIhUZXVceTh5sNjqI'
+api_key = 'AIzaSyDS-ETfAHmdfFXLeVXLMNhXqtsiYBWl2qw'
 
 
 
@@ -27,9 +29,9 @@ config = {
 firebase = pyrebase.initialize_app(config)
 authe=firebase.auth()
 db = firebase.database()
+
 # Create your views here.
 def map(request, *args, **kwargs):
-    api_key = 'AIzaSyDS-ETfAHmdfFXLeVXLMNhXqtsiYBWl2qw'
     data = db.child("diseases").get()
     data_h = db.child("hospitals").get()
     diseases = json.dumps(data.val())
@@ -55,7 +57,12 @@ def map(request, *args, **kwargs):
     print (g.json)
     print ("--->>", g.latlng)
 
+    try:
+          del request.session['uid']
+    except:
+           pass
     return render(request, "map.html", {"data": diseases,"data_h":h})
+
 
 
 def login(request, *args, **kwargs):
@@ -98,8 +105,13 @@ def postsign(request):
         vacc = db.child("hospitals").child(Hospital).child('vaccine').get().val()
         a = ' '.join(vacc).split()
         mylist = ",".join(a)
+        if len(vacc) ==1:
+            vacc1 = "None Available .Please add vaccines"
+        else:
+            vacc1 = mylist
+
         return render(request, "profile.html",
-                      {'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno, 'vac': mylist})
+                      {'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno, 'vac': vacc1})
 
 
 
@@ -182,16 +194,6 @@ def profilepostdel(request, *args, **kwargs):
     return render(request, "addprofile.html",{'Hn': Hospital, 'eml': email, 'add': address, 'phn': phno,'vac':mylist})
 
 
-
-#LOGOUT
-def logout(request):
-      try:
-          del request.session['uid']
-      except:
-           pass
-      return render(request,'login.html')
-
-
 # REGISTRATION
 def postsignup(request):
          hname = request.POST.get('Hname')
@@ -239,50 +241,4 @@ def postsignup(request):
             return render(request, "regi.html", {"messg": message})
 
          return render(request, "login.html")
-
-
-# AFTER LOGIN ADD INFO ABOUT DISEASE AND VACCINE
-# def postaftersign(request):
-#     harc=request.POST.get('acr')
-#     hspc=request.POST.get('special')
-#     hfac=request.POST.get('fac')
-#     hdis = request.POST.get('Dis')
-#     hvacc = request.POST.get('Vac')
-#     hvacc1 = request.POST.get('Vac1')
-#     hprev=request.POST.get('preventions')
-#     hprev1 = request.POST.get('preventions1')
-#     hprev2 = request.POST.get('preventions2')
-#     hsymp=request.POST.get('symp')
-#     hsymp1 = request.POST.get('symp1')
-#     hsymp2 = request.POST.get('symp2')
-#
-#
-#     idtoken = request.session['uid']
-#     a = authe.get_account_info(idtoken)
-#     a = a['users']
-#     a = a[0]
-#     a = a['localId']
-#
-#
-#     p=[hprev,hprev1,hprev2]
-#     s=[hsymp,hsymp1,hsymp2]
-#     lat = {"lat": 22.973423, "lng": 78.656891}
-#     v=[hvacc,hvacc1]
-#
-#
-#     #display vaccine in hospital
-#     hname = db.child("users1").child(a).child("user").child('h_name').get().val()
-#     hcon=db.child("hospitals").child(hname).child('Country').get().val()
-#     db.child("hospitals").child(hname).child("vaccine").set(v)
-#
-#     #disease database
-#     db.child("diseases").child(hdis).child("places").child(hcon).set(lat)
-#     db.child("diseases").child(hdis).child("precaution").set(p)
-#     db.child("diseases").child(hdis).child("symptoms").set(s)
-#
-#
-#     d={"Accredation":harc,"Speciality":hspc,"Facility":hfac}
-#     db.child("users1").child(a).child("user").child("a_info").set(d)
-
-#     return render(request, "afterlogin.html")
 
