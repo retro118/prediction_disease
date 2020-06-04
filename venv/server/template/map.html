@@ -1,23 +1,30 @@
+
 <!DOCTYPE html>
 <html>
     <head>
         <style>
             .button {
-                background-color: #22b9ca;
+                font-family: "Roboto", sans-serif;
+                text-transform: uppercase;
+                background:  #4ea53f;
                 border: none;
                 color: white;
                 padding: 15px 32px;
                 text-align: center;
                 text-decoration: none;
+                border-radius: 15px;
                 display: inline-block;
                 font-size: 16px;
                 position: -ms-page;
+                outline:none;
+
               }
               #googlemap {
         height: 100%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
+       background: #d6dae1;
         height: 100%;
         margin: 0;
         padding: 0;
@@ -26,11 +33,15 @@
     </head>
 <body>
 <button class="button" style="float:right" onclick="window.location.href='login.html'">Login</button>
+<button class="button" style="margin-left: 1100px" onclick="window.location.href='regi.html'">Register</button>
 <div id="googleMap" style="width:100%;height:600px;"></div>
+
 
 <script>
 
 var diseases = {{data | safe}}
+var h = {{data_h | safe}}
+
 
 function initMap() {
 var mapProp= {
@@ -224,7 +235,6 @@ var mapProp= {
 };
 var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
-
 for (var disease in diseases) {
     for (var place in diseases[disease].places) {
         addDiseaseCircle (diseases[disease].places[place], disease, diseases[disease], place)
@@ -252,9 +262,9 @@ function addDiseaseCircle (location , disease, data, place) {
               infowindow.setPosition(this.getCenter());
               infowindow.open(map);
         });
-
+  
     }
-
+  
     function getDiseaseContent (disease, data , place) {
     var content = "<div> <h4>Disease Information</h4> <p>Name : "+disease+"</p> <p>Location : "+place+"</p> <p>Symptoms : <ol> ";
     for( var symptom in data.symptoms) {
@@ -269,10 +279,78 @@ function addDiseaseCircle (location , disease, data, place) {
     console.log(content)
     return content;
     }
+
+
+<!--//////////////////////////-->
+
+
+for (var hospital in h) {
+    for (var name in h[hospital].location) {
+        addHospitalCircle (h[hospital].location, hospital, h[hospital], name)
+    }//for
+  }//for
+
+
+function addHospitalCircle (location , hospital, data, name) {
+    var img = {
+         path:'M 16.78125 24.476562 L 7.695312 24.476562 L 7.695312 16.78125 L 0 16.78125 L 0 7.695312 L 7.695312 7.695312 L 7.695312 0 L 16.78125 0 L 16.78125 7.695312 L 24.476562 7.695312 L 24.476562 16.78125 L 16.78125 16.78125 Z M 9.128906 23.039062 L 15.34375 23.039062 L 15.34375 15.34375 L 23.039062 15.34375 L 23.039062 9.128906 L 15.34375 9.128906 L 15.34375 1.433594 L 9.128906 1.433594 L 9.128906 9.128906 L 1.433594 9.128906 L 1.433594 15.34375 L 9.128906 15.34375 Z M 9.128906 23.039062 ',
+         fillOpacity: 0.8,
+         scale: 1,
+         strokeColor: 'green',
+         strokeWeight: 3
+       };
+
+    var hospitalCircle = new google.maps.Marker({
+         position: {lat:location.lat,lng:location.lng},
+         icon: img,
+         map: map
+     });
+
+    var infowindow = new google.maps.InfoWindow();
+
+     google.maps.event.addListener(hospitalCircle,'click', function (evt) {
+              var content = getHospitalContent(hospital, data, name);
+              infowindow.setContent(content);
+              <!--infowindow.setPosition(this.getCenter());-->
+              infowindow.open(map,hospitalCircle);
+        });
+    }
+     function getHospitalContent (hospital, data , name) {
+     var content = "<div> <h4>Hospital Information</h4> <p>Name : "+hospital+"</p>  <p>Email : <ol> ";
+     for( var eml in data.Email) {
+     <!--content += "<li>"+data.Email[eml]+"</li>"-->
+     content += data.Email[eml]
+    }
+    content += "</ol>"
+    content += "<p>Phone No : <ol>"
+    for( var phn in data.Phone) {
+    content += data.Phone[phn]
+    }
+    content += "</ol>"
+    content += "<p>Address : <ol>"
+    for( var add in data.address) {
+    content += data.address[add]
+    }
+    <!--content += "</ol>"-->
+    <!--content += "<p>Location : <ol>"-->
+    <!--for( var loc in data.location) {-->
+    <!--content +="<li>"+data.location[loc]+" ,"+"</li>"-->
+    <!--}-->
+    content += "</ol>"
+    content += "<p>Vaccine : <ol>"
+    for( var V in data.vaccine) {
+
+    content +="<li>"+data.vaccine[V]+"</li>"
+    }
+    content += "</ol></div>"
+    console.log(content)
+    return content;
+    }
+       
 }
 </script>
 <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30703867.0716799!2d64.40183608457191!3d20.049158955693073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1573723976663!5m2!1sen!2sin"
     width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>-->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByksrWBWJYbWJenGuIhUZXVceTh5sNjqI&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS-ETfAHmdfFXLeVXLMNhXqtsiYBWl2qw&callback=initMap"></script>
 </body>
 </html>

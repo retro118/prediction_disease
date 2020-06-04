@@ -9,37 +9,177 @@
 <head>
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+
+
+
+     <script type = "text/javascript">
+       function Validate()
+       {
+         var name = document.myForm2.Hname.value;
+         var emailID = document.myForm2.Email.value;
+         var uname = document.myForm2.Username.value;
+         var passid = document.myForm2.Password.value;
+         var C_passid = document.myForm2.Confirmpassword.value;
+         var country = document.myForm2.Country.value;
+         var state = document.myForm2.State.value;
+         var add = document.myForm2.Address.value;
+         var pin = document.myForm2.Pin.value;
+         var phno = document.myForm2.ContactNo.value;
+
+
+
+         if (name == '')
+          {
+            alert("Hospital name is required")
+            document.myForm2.Hname.focus();
+            return false;
+          }
+
+         if(emailID == ""){
+                alert("Please enter Email ID")
+				document.myForm.Email.focus();
+				return false;
+			}
+			if(emailID.indexOf('@') <= 0 ){
+			    alert("@ Invalid Position")
+                document.myForm.Email.focus();
+				return false;
+			}
+
+			if((emailID.charAt(emailID.length-4)!='.') && (emailID.charAt(emailID.length-3)!='.')){
+			    alert(". Invalid Position")
+                document.myForm.Email.focus();
+				return false;
+			}
+
+         if (uname == '')
+          {
+            alert("Username is required")
+            document.myForm2.Username.focus();
+            return false;
+          }
+
+         if(passid == '')
+          {
+             alert("Password should not be empty");
+             document.myForm2.Password.focus();
+             return false;
+          }
+
+		 if((passid.length < 6) || (passid.length > 12))
+		  {
+		       alert("Passwords lenght must be between  6 and 12");
+               document.myForm2.Password.focus();
+			   return false;
+		  }
+
+         if(C_passid == "")
+		  {
+		        alert("Please fill the Confirm Password field");
+                document.myForm2.Confirmpassword.focus();
+				return false;
+		  }
+
+		 if(passid!=C_passid)
+		  {
+		        alert("Password does not match the confirm password");
+                document.myForm2.Confirmpassword.focus();
+				return false;
+		  }
+
+
+         if (country == "")
+          {
+            alert("Country is required")
+            document.myForm2.Country.focus();
+            return false;
+          }
+
+         if (state == "")
+          {
+            alert("State is required")
+            document.myForm2.State.focus();
+            return false;
+          }
+         if (add == "")
+          {
+            alert("Address is required")
+            document.myForm2.Address.focus();
+            return false;
+          }
+
+          if (pin == "")
+          {
+            alert("Pin Code is required")
+            document.myForm2.Pin.focus();
+            return false;
+          }
+
+          if(isNaN(pin)){
+                alert("User must write digits only not characters")
+                document.myForm2.Pin.focus();
+				return false;
+			}
+
+          if(phno == ""){
+                alert("Please fill the mobile NUmber field")
+                document.myForm2.ContactNo.focus();
+				return false;
+			}
+			if(isNaN(phno)){
+			    alert("User must write digits only not characters")
+                document.myForm2.ContactNo.focus();
+				return false;
+			}
+			if(phno.length!=10){
+			    alert("Mobile Number must be 10 digits only")
+                document.myForm2.ContactNo.focus();
+				return false;
+			}
+
+        return( true );
+
+      }
+      </script>
 </head>
 <body>
 
-<div class="login-page">
+<!--<div class="login-page">-->
     <div class="form">
-        <form action="/postsignup/"  method="POST" >
+        <form action="/postsignup/" name="myForm2"  method="POST" onsubmit="return(Validate());" >
            {% csrf_token %}
-          <input type="text" name="Hospital name"  id="Hospital name " placeholder="Hospital name"/>
+            <p class="login100-form-title">Registration</p>
+            <p><h6 style="color:Red; text-align:left;">* All fields are required</h6></p>
 
-          <input type="text" name="Email" id="Email" placeholder="Email"/>
 
-          <input type="text" name="Username" id="Username" placeholder="Username"/>
+            <input type="text" name="Hname" id="Hospital name " placeholder="Hospital name"/>
 
-          <input type="password" name="Password" id="Password" placeholder="Password"/>
+            <input type="text" name="Email" id="Email"  placeholder="Email" />
 
-          <input type="password" name="Confirm password" id="Confirm password" placeholder="Confirm password"/>
+            <input type="text" name="Username" id="Username" placeholder="Username"/>
 
-          <input type="text" name="Country" id="Country" placeholder="Country"/>
+             <input type="password" name="Password" id="Password" placeholder="Password "/>
 
-          <input type="text" name="State" id="State" placeholder="State"/>
+            <input type="password" name="Confirmpassword" id="Confirm password" placeholder="Confirm password"/>
 
-          <input type="text" width="50px" name="Address" id="Address" placeholder="Address" style="height: 80px;"/>
+            <input type="text" name="Country" id="Country" placeholder="Country"/>
 
-          <input type="tel" name="Pin code" id="Pin code" placeholder="Pin code"/>
+            <input type="text" name="State" id="State" placeholder="State"/>
 
-          <input type="tel" name="Contact no" id="Contact no" placeholder="Contact no"/>
+            <input type="text" width="50px" name="Address" id="Address" placeholder="Address" style="height: 80px;"/>
 
-          <button onclick="location.href='{% url 'Regi' %}'" type="submit">Register</button>
-          <!--<p class="message"><a href="login.html">Log In</a></p>-->
+            <input type="tel" name="Pin" id="Pin" placeholder="Pin code"/>
+
+            <input type="tel" name="ContactNo" id="ContactNo" placeholder="Contact no"/>
+
+            <button onclick="location.href='{% url 'Regi' %}'" type="submit">Sign up</button><br><br>
+
         </form>
     </div>
   </div>
+
+
+
 </body>
 </html>
+

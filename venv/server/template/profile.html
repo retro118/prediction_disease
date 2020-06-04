@@ -1,38 +1,42 @@
-
-{% if messg %}
-<script>
-    alert('{{ messg }}');
-</script>
-{% endif %}
-
 <!DOCTYPE html>
 <html>
 <head>
   {% load static%}
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+
 </head>
 <body>
-
-<div class="login-page">
     <div class="form">
+           <p class="login100-form-title">Profile</p>
 
-            Hospital: {{Hn}}
+            <p style="font-weight: bold; margin: 0; display: inline;float:left">Hospital Name:  </p>
+             <p style="display:inline:float:center">{{Hn}}</p>
+            <br>
+
+            <p style="font-weight: bold; margin: 0; display: inline;float:left" >Email: </p>
+                    <p style="margin:0;display:inline:float:center;">{{eml}}</p>
             <br><br>
 
-            Email:{{eml}}
-            <br><br>
-
-             Address:{{add}}
+             <p style="font-weight: bold; margin: 0; display: inline;float:left">Address : </p>
+                    <p style="margin:0;display:inline:float:center">{{add}}</p>
+                 <!--<input type="text" id="read3" name="read3" value={{add}} readonly>-->
              <br><br>
 
-             Contact no:{{phn}}
+             <p style="font-weight: bold; margin: 0; display: inline;float:left"> Contact no: </p>
+                    <p style="margin:0;display:inline:float:center">{{phn}}</p>
              <br><br>
 
 
-           <button onclick="location.href='{% url 'map' %}'" type="button">BACK</button>
-          <!--<p class="message"><a href="login.html">Log In</a></p>-->
-        </form>
+              <p style="font-weight: bold; margin: 0; display: inline-block;float:left"> Vaccines Available: </p>
+
+                   <button class="button1"style=" width: 30%;float: right;padding: 10px;width: 60px;height: 40px;display: inline-block;" onclick="location.href='{% url 'addprof' %}'" type="button">add</button>
+                   <br><br><br>
+
+
+                  <input type="text" id="read6" name="read6" value="{{vac}}" readonly>
+
+                 <button onclick="location.href='{% url 'map' %}'" type="button">Logout</button>
     </div>
-  </div>
 </body>
 </html>
+
